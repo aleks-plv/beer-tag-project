@@ -1,18 +1,33 @@
 package com.company.web.springdemo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "beers")
 public class Beer {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //tova e primary id??
+    @Column(name = "beer_id")
     private int id;
 
-
+    @Column(name = "name")
     private String name;
-
+    @Column(name = "abv")
     private double abv;
 
+    @ManyToOne//mnogo biri shte imat 1 stil
+    @JoinColumn(name = "style_id")
     private Style style;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User createdBy;
+
 
     public Beer() {
     }
