@@ -30,7 +30,7 @@ public class HibernateConfig {
         LocalSessionFactoryBean sessionfactory = new LocalSessionFactoryBean();
         sessionfactory.setDataSource(dataSource());
         //modelite, koito shte budat svurzani s tablicite
-        sessionfactory.setPackagesToScan("com.telerikacademy.web.springdemo.models");
+        sessionfactory.setPackagesToScan("com.company.web.springdemo.models");
         //hibernate shte raboti na bazata na nastroikite v tozi metod
         sessionfactory.setHibernateProperties(hibernateProperties());
         return sessionfactory;

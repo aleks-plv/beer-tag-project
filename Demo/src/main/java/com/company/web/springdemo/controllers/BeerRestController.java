@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -55,17 +56,17 @@ public class BeerRestController {
     }
 
     @PostMapping
-    public Beer create(@RequestHeader HttpHeaders  headers, @Valid @RequestBody BeerDto beerDto) {
+    public Beer create(@RequestHeader HttpHeaders headers, @Valid @RequestBody BeerDto beerDto) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             Beer beer = beerMapper.fromDto(beerDto);
-            service.create(beer,user);
+            service.create(beer, user);
             return beer;
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (EntityDuplicateException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
-        } catch (AuthorizationException e){
+        } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
@@ -81,7 +82,7 @@ public class BeerRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (EntityDuplicateException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
-        } catch (AuthorizationException e){
+        } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
@@ -93,7 +94,7 @@ public class BeerRestController {
             service.delete(id, user);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        } catch (AuthorizationException e){
+        } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
