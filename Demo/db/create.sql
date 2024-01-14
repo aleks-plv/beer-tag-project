@@ -25,3 +25,13 @@ foreign key (style_id) references styles (style_id),
     constraint beers_users_user_id_fk
 foreign key (created_by) references users (user_id)
 );
+create table users_beers
+(
+    user_id int        not null,
+    beer_id int        not null,
+    drunk tinyint(1)   not null,
+    constraint users_beers_beers_beer_id_fk
+        foreign key (beer_id) references beers (beer_id),
+    constraint users_beers_users_user_id_fk
+        foreign key (user_id) references users (user_id)
+);

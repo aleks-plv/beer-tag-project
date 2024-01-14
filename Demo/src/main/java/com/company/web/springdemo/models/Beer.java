@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Beer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //tova e primary id??
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "beer_id")
     private int id;
 
@@ -19,13 +19,13 @@ public class Beer {
     @Column(name = "abv")
     private double abv;
 
-    @ManyToOne//mnogo biri shte imat 1 stil
+    @ManyToOne
     @JoinColumn(name = "style_id")
     private Style style;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "created_by")
     private User createdBy;
 
 

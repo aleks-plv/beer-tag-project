@@ -1,7 +1,5 @@
 package com.company.web.springdemo.config;
 
-import com.company.web.springdemo.repositories.StyleRepository;
-import com.company.web.springdemo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,8 +25,8 @@ public class HibernateConfig {
         this.dbPassword = env.getProperty("database.password");
     }
 
-    @Bean(name="entityManagerFactory")
-    public LocalSessionFactoryBean sessionFactory(){
+    @Bean(name = "entityManagerFactory")
+    public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionfactory = new LocalSessionFactoryBean();
         sessionfactory.setDataSource(dataSource());
         //modelite, koito shte budat svurzani s tablicite
@@ -39,7 +37,7 @@ public class HibernateConfig {
     }
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         //zadavame s kakuv driver da raboti
         dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
@@ -50,14 +48,10 @@ public class HibernateConfig {
         return dataSource;
     }
 
-    private Properties hibernateProperties(){
+    private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MariaDBDialect");
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 
         return hibernateProperties;
-
     }
-
-
 }

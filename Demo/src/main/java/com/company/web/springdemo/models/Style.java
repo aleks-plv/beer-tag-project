@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Style {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "style_id")
     private int id;
 

@@ -14,7 +14,7 @@ public interface BeerRepository {
 
     void create(Beer beer);
 
-    void update(Beer beer);
+    Beer update(Beer beer);
 
     void delete(int id);
 

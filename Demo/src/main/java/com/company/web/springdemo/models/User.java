@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int id;
 
@@ -31,6 +32,13 @@ public class User {
 
     @Column(name = "is_admin")
     private boolean isAdmin;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_beers",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "beer_id"))
+    private Set<Beer> wishList;
 
     public User() {
     }
@@ -98,16 +106,24 @@ public class User {
         isAdmin = admin;
     }
 
+    public Set<Beer> getWishList() {
+        return wishList;
+    }
+
+    public void setWishList(Set<Beer> wishList) {
+        this.wishList = wishList;
+    }
+
     @Override
-    public boolean equals(Object o){
-        if(this ==o ) return true;
-        if(o==null || getClass() != o.getClass()) return false;
-        User user =(User) o;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
         return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password);
     }
 
     @Override
-        public int hashCode(){
+    public int hashCode() {
         return Objects.hash(id, username, password);
     }
 
