@@ -2,34 +2,30 @@ package com.company.web.springdemo.repositories;
 
 import com.company.web.springdemo.exceptions.EntityNotFoundException;
 import com.company.web.springdemo.models.Beer;
-import com.company.web.springdemo.models.Style;
-import com.company.web.springdemo.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class BeerRepositoryImpl implements BeerRepository{
+public class BeerRepositoryImpl implements BeerRepository {
     private final SessionFactory sessionfactory;
+
     @Autowired
     public BeerRepositoryImpl(SessionFactory sessionfactory) {
-       this.sessionfactory = sessionfactory;
+        this.sessionfactory = sessionfactory;
     }
 
     @Override
     public List<Beer> get(String name, Double minAbv, Double maxAbv,
                           Integer styleId, String sortBy, String sortOrder) {
-        try(Session session = sessionfactory.openSession()){
+        try (Session session = sessionfactory.openSession()) {
             Query<Beer> query = session.createQuery("from Beer", Beer.class);
             return filterBeers(query.list(), name, minAbv, maxAbv, styleId, sortBy, sortOrder);
         }
@@ -37,22 +33,22 @@ public class BeerRepositoryImpl implements BeerRepository{
 
     @Override
     public Beer getById(int id) {
-        try(Session session = sessionfactory.openSession()){
-           Beer beer = session.get(Beer.class, id);
-           if(beer == null){
-               throw new EntityNotFoundException("Beer", id);
-           }
-           return beer;
+        try (Session session = sessionfactory.openSession()) {
+            Beer beer = session.get(Beer.class, id);
+            if (beer == null) {
+                throw new EntityNotFoundException("Beer", id);
+            }
+            return beer;
         }
     }
 
     @Override
     public Beer getByName(String name) {
-        try(Session session = sessionfactory.openSession()){
+        try (Session session = sessionfactory.openSession()) {
             Query<Beer> query = session.createQuery("from Beer where name = :name", Beer.class);
             query.setParameter("name", name);
             List<Beer> result = query.list();
-            if(result.isEmpty()){
+            if (result.isEmpty()) {
                 throw new EntityNotFoundException("Beer", "name", name);
             }
             return result.get(0);
@@ -61,7 +57,7 @@ public class BeerRepositoryImpl implements BeerRepository{
 
     @Override
     public void create(Beer beer) {
-        try (Session session = sessionfactory.openSession()){
+        try (Session session = sessionfactory.openSession()) {
             session.beginTransaction();
             session.persist(beer);
             session.getTransaction().commit();
@@ -72,7 +68,7 @@ public class BeerRepositoryImpl implements BeerRepository{
     @Override
     public Beer update(Beer beer) {
 
-        try(Session session = sessionfactory.openSession()){
+        try (Session session = sessionfactory.openSession()) {
             session.beginTransaction();
             session.merge(beer);
             session.getTransaction().commit();
@@ -82,7 +78,7 @@ public class BeerRepositoryImpl implements BeerRepository{
 
     @Override
     public void delete(int id) {
-        try(Session session = sessionfactory.openSession()){
+        try (Session session = sessionfactory.openSession()) {
             session.beginTransaction();
             session.remove(getById(id));
             session.getTransaction().commit();
